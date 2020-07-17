@@ -29,7 +29,7 @@ const Movies = (props) => {
     if (props.movieSee === true) {
       props.handleClickDeleteMovieParent(props.movieName)
     } else {
-      props.handleClickAddMovieParent(props.movieName, props.movieImg)
+      props.handleClickAddMovieParent(props.movieName, props.movieImg, props.movieId)
     }
   }
 

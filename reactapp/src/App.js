@@ -11,9 +11,13 @@ function App() {
   // Whishlist
   const [wishList, setWishList] = useState([])
 
-  var handleClickAddMovie = (title, image) => {
-    console.log(title, image)
-      setWishList([...wishList, {title, image}])
+  var handleClickAddMovie = async (title, image, movieId) => {
+      // ajouer un film à la wish list
+      await fetch('/wishlist/'+movieId, {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: 'movieId=' + movieId + '&title='+ title + '&image=' + image
+      })
   }
   var handleClickDeleteMovie = (movie) => {
     setWishList(wishList.filter( (e) => (e !== movie)))
@@ -47,11 +51,6 @@ function App() {
     loadData()
   }, [])
 
-  // ajouter un film à la wish list lors de la mise à jour de [wishList]
-  useEffect ( () => {
-
-  } )
-
   // boucle de mes films
   const movieList = movieListApi.map(function(movie, i) {
     var result = wishList.find(element => element.title === movie.name)
@@ -59,7 +58,7 @@ function App() {
     if (result !== undefined) {
       isSee = true
     }
-    return <Movies key={i} movieSee={isSee} movieName={movie.title} movieDesc={movie.overview} movieImg={movie.backdrop_path} globalRating={movie.vote_average} globalCountRating={movie.vote_count} handleClickAddMovieParent={handleClickAddMovie} handleClickDeleteMovieParent={handleClickDeleteMovie} />
+    return <Movies key={i} movieSee={isSee} movieName={movie.title} movieDesc={movie.overview} movieImg={movie.backdrop_path} globalRating={movie.vote_average} globalCountRating={movie.vote_count} movieId={movie.id} handleClickAddMovieParent={handleClickAddMovie} handleClickDeleteMovieParent={handleClickDeleteMovie} />
   })
   var numberWish = wishList.length
 
