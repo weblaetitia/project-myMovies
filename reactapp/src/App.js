@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import './App.css'
 import { Navigation } from './components/Nav'
-import {Movies} from './components/Movie'
+import { Movies } from './components/Movie'
 
 import { Container, Row, ListGroupItem, Media } from 'reactstrap';
 
@@ -10,6 +10,7 @@ function App() {
 
   // Whishlist
   const [wishList, setWishList] = useState([])
+
   var handleClickAddMovie = (title, image) => {
     console.log(title, image)
       setWishList([...wishList, {title, image}])
@@ -34,6 +35,7 @@ function App() {
   })
 
 
+
   // boucle film via API
   const [movieListApi, setMovieListApi] = useState([])
   useEffect(() => {
@@ -44,6 +46,11 @@ function App() {
     }
     loadData()
   }, [])
+
+  // ajouter un film à la wish list lors de la mise à jour de [wishList]
+  useEffect ( () => {
+
+  } )
 
   // boucle de mes films
   const movieList = movieListApi.map(function(movie, i) {

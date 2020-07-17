@@ -9,6 +9,9 @@ router.get('/new-movies', function(req, res, next) {
   var apiRequest = request('GET', (`https://api.themoviedb.org/3/discover/movie/?api_key=${apiKey}&language=fr&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`) )
   apiRequest = JSON.parse(apiRequest.getBody())
   datas = apiRequest.results.map(function(movie) {
+    // cut the text
+    var shortOverview = movie.overview.slice(movie.overview.length - 80) + '...'
+
     return {
       popularity: movie.popularity,
       vote_count: movie.vote_count,
@@ -16,7 +19,7 @@ router.get('/new-movies', function(req, res, next) {
       backdrop_path: 'http://image.tmdb.org/t/p/w300/' + movie.backdrop_path,      
       title: movie.title,
       vote_average: movie.vote_average,
-      overview: movie.overview
+      overview: shortOverview
     }
   })
   res.json(datas);
