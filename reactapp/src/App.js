@@ -21,10 +21,12 @@ function App() {
     setWishList([...wishList, {title, backdrop, movieId}])
   }
 
-  // supprimer un film de la wish list
+  // supprimer un film de la bdd et de la wish list
   var handleClickDeleteMovie = async (movieId) => {
-    // effacer de la wishlist en BD
-    await fetch('/wishlist/:'+ movieId)
+    await fetch('/wishlist/'+ movieId, {
+      method: 'DELETE'
+    })
+    setWishList(wishList.filter( (e) => (e.movieId !== movieId)))
   }
 
   // afficher la wishlist
@@ -37,8 +39,6 @@ function App() {
     }
   loadData()  
   }, [])
-
-  console.log(wishList)
 
   const myWishList = wishList.map( function (movie, i) {
     return <ListGroupItem className='p-1'>

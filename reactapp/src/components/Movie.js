@@ -30,10 +30,12 @@ const Movies = (props) => {
 
   // Like btn -> Like & add to/delete from wishlist
   var clickLike = () => {
-    if (props.movieSee === true) {
-      props.handleClickDeleteMovieParent(props.movieName)
+    if (movieSee === true) {
+      props.handleClickDeleteMovieParent(props.movieId)
+      setMovieSee(false)
     } else {
       props.handleClickAddMovieParent(props.movieName, props.movieImg, props.movieId)
+      setMovieSee(true)
     }
   }
 
@@ -109,7 +111,7 @@ const Movies = (props) => {
         <CardText>
             <p className="font-weight-bold">{props.movieName}</p>
             <p className="mb-0">
-              Like <FontAwesomeIcon className='heart' icon={faHeart} style={heart} onClick={ () => clickLike() }/> {props.movieSee}
+              Like <FontAwesomeIcon icon={faHeart} style={heart} onClick={ () => clickLike() }/> {props.movieSee}
             </p>
             <p className="mb-0">
               Nombre de vues <FontAwesomeIcon icon={faVideo} style={movieCamera} onClick={ () => clickWatch() } />

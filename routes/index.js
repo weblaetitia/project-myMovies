@@ -41,23 +41,19 @@ router.post('/wishlist/:id', async function(req, res, next) {
     title: apiRequest.title,
     backdrop: backDrop,
   })
-
   var newMovie = await newMovie.save()
-
-  console.log(newMovie)
-
   res.json({result: true});
 });
 
 
 /* DELETE wishlist. */
 router.delete('/wishlist/:id', async function(req, res, next) {
+  console.log('ok route DELETE')
   var movieId = req.params.id
-
   await WishModel.deleteOne({
     tmdb_id: movieId
   })
-
+  console.log('ok delete')
   res.json({result: true});
 });
 
