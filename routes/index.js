@@ -62,10 +62,8 @@ router.delete('/wishlist/:id', async function(req, res, next) {
 });
 
 /* GET wishlist. */
-router.get('/wishlist/', async function(req, res, next) {
-
+router.get('/wishlist', async function(req, res, next) {
   myWishList = await WishModel.find()
-
   res.json(myWishList);
 });
 

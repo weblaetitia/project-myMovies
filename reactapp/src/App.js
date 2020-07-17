@@ -8,28 +8,43 @@ import { Container, Row, ListGroupItem, Media } from 'reactstrap';
 
 function App() {
 
-  // Whishlist
+  // wishlist
   const [wishList, setWishList] = useState([])
 
-  var handleClickAddMovie = async (title, image, movieId) => {
-      // ajouer un film à la wish list
-      await fetch('/wishlist/'+movieId, {
-        method: 'POST',
-        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: 'movieId=' + movieId + '&title='+ title + '&image=' + image
-      })
+  // ajouer un film à la wish list
+  var handleClickAddMovie = async (title, backdrop, movieId) => {
+    await fetch('/wishlist/'+movieId, {
+      method: 'POST',
+      headers: {'Content-Type':'application/x-www-form-urlencoded'},
+      body: 'movieId=' + movieId + '&title='+ title + '&image=' + backdrop
+    })
+    setWishList([...wishList, {title, backdrop, movieId}])
   }
-  var handleClickDeleteMovie = (movie) => {
-    setWishList(wishList.filter( (e) => (e !== movie)))
+
+  // supprimer un film de la wish list
+  var handleClickDeleteMovie = async (movieId) => {
+    // effacer de la wishlist en BD
+    await fetch('/wishlist/:'+ movieId)
   }
-  var deleteFromWl = (movie) => {
-    setWishList(wishList.filter( (e) => (e.title !== movie)))
-  }
+
+  // afficher la wishlist
+  
+  useEffect (() => {
+    async function loadData() {
+      var rawResponse = await fetch('/wishlist')
+      var response = await rawResponse.json()
+      setWishList(response)
+    }
+  loadData()  
+  }, [])
+
+  console.log(wishList)
+
   const myWishList = wishList.map( function (movie, i) {
     return <ListGroupItem className='p-1'>
           <Media>
-            <Media left href="#" onClick={ () => deleteFromWl(movie.title) }>
-              <Media object src={movie.image} alt={movie.title} style={{width:'60px', marginRight:'0.8em'}} />
+            <Media left href="#" >
+              <Media object src={movie.backdrop} alt={movie.title} style={{width:'60px', marginRight:'0.8em'}} />
             </Media>
             <Media body>
             {movie.title}
@@ -37,8 +52,6 @@ function App() {
           </Media>
       </ListGroupItem>
   })
-
-
 
   // boucle film via API
   const [movieListApi, setMovieListApi] = useState([])
@@ -66,7 +79,7 @@ function App() {
 
   // render principale
   return (
-    
+
    <div>
      <Container className="mb-4">
       <Navigation myWishList={myWishList} numberOfMovies={numberWish} />
