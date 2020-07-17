@@ -5,6 +5,8 @@ import { Movies } from './components/Movie'
 
 import { Container, Row, ListGroupItem, Media } from 'reactstrap';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 
 function App() {
 
@@ -48,6 +50,9 @@ function App() {
             </Media>
             <Media body>
             {movie.title}
+            </Media>
+            <Media body style={{textAlign: 'right'}} >
+            <FontAwesomeIcon icon={faTimesCircle} style={{cursor: 'pointer'}} />
             </Media>
           </Media>
       </ListGroupItem>
