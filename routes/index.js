@@ -3,20 +3,23 @@ var router = express.Router();
 var request = require('sync-request');
 var WishModel = require('../models/whishlist')
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-
-  res.render('index', { title: 'Express' });
-});
-
 /* GET newmovies */
 router.get('/new-movies', function(req, res, next) {
   var apiKey = process.env.TMDB_API
   var apiRequest = request('GET', (`https://api.themoviedb.org/3/discover/movie/?api_key=${apiKey}&language=fr&sort_by=popularity.desc&include_adult=false&include_video=false&page=1`) )
   apiRequest = JSON.parse(apiRequest.getBody())
-
-
-  res.json(apiRequest);
+  datas = apiRequest.results.map(function(movie) {
+    return {
+      popularity: movie.popularity,
+      vote_count: movie.vote_count,
+      id: movie.id,      
+      backdrop_path: 'http://image.tmdb.org/t/p/w300/' + movie.backdrop_path,      
+      title: movie.title,
+      vote_average: movie.vote_average,
+      overview: movie.overview
+    }
+  })
+  res.json(datas);
 });
 
 /* POST wishlist. */
