@@ -6,7 +6,7 @@ import { faHeart, faVideo, faStar } from '@fortawesome/free-solid-svg-icons'
 
 
 const Movies = (props) => {
-  
+  // styles
   var genericStyle =  {
     cursor: 'pointer',
     transitionDuration: '.5s' 
@@ -24,6 +24,10 @@ const Movies = (props) => {
     ... genericStyle,
   }
 
+  // movieSee check if the movie is already in wishlist
+
+  const [movieSee, setMovieSee] = useState(false)
+
   // Like btn -> Like & add to/delete from wishlist
   var clickLike = () => {
     if (props.movieSee === true) {
@@ -33,7 +37,7 @@ const Movies = (props) => {
     }
   }
 
-  if (props.movieSee === true) {
+  if (movieSee === true) {
     heart.color = '#e74c3c'
   } else { 
     heart.color = 'grey'
@@ -105,7 +109,7 @@ const Movies = (props) => {
         <CardText>
             <p className="font-weight-bold">{props.movieName}</p>
             <p className="mb-0">
-              Like <FontAwesomeIcon icon={faHeart} style={heart} onClick={ () => clickLike() }/> {props.movieSee}
+              Like <FontAwesomeIcon className='heart' icon={faHeart} style={heart} onClick={ () => clickLike() }/> {props.movieSee}
             </p>
             <p className="mb-0">
               Nombre de vues <FontAwesomeIcon icon={faVideo} style={movieCamera} onClick={ () => clickWatch() } />
