@@ -37,7 +37,29 @@ const Movies = (props) => {
   // movieSee check if the movie is already in wishlist
   const [movieSee, setMovieSee] = useState(false)
 
-  
+  // check if movie is allready in db wish list with useeffect
+  // useEffect (() => {
+  //   async function loadData() {
+  //     // check db
+  //     var rawresponse = await fetch ('/wishlist')
+  //     var response = await rawresponse.json()
+  //     // check if movie name == nam in db
+  //     response.forEach((element) => {
+  //       if (element.tmdb_id == props.movieId) {
+  //         console.log(props.movieId, element.tmdb_id, 'same movie')
+  //         setMovieSee(true)
+  //         setHeartColor('#e74c3c')
+  //       } else {
+  //         console.log(props.movieId, element.tmdb_id, 'not same movie')
+  //         setMovieSee(false)
+  //         setHeartColor('grey')
+  //       }
+  //     })
+  //   }
+  // loadData()  
+  // }, [])
+
+
   // Like btn -> Like & add to/delete from wishlist
   var clickLike = () => {
     if (movieSee === true) {
