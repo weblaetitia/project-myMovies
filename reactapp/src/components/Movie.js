@@ -1,8 +1,9 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Card, CardImg, CardText, CardBody, Badge, Col} from 'reactstrap';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faVideo, faStar } from '@fortawesome/free-solid-svg-icons'
+import { set } from 'mongoose';
 
 
 const Movies = (props) => {
@@ -14,6 +15,12 @@ const Movies = (props) => {
 
   var heart = {
     ... genericStyle,
+    color: '#grey'
+  }
+
+  var likedHeart = {
+    ... genericStyle,
+    color: '#e74c3c'
   }
 
   var movieCamera = {
@@ -24,26 +31,27 @@ const Movies = (props) => {
     ... genericStyle,
   }
 
-  // movieSee check if the movie is already in wishlist
+  // setter for heart color
+  const [heartColor, setHeartColor] = useState('grey')
 
+  // movieSee check if the movie is already in wishlist
   const [movieSee, setMovieSee] = useState(false)
 
+  
   // Like btn -> Like & add to/delete from wishlist
   var clickLike = () => {
     if (movieSee === true) {
       props.handleClickDeleteMovieParent(props.movieId)
+      setHeartColor('grey')
       setMovieSee(false)
     } else {
       props.handleClickAddMovieParent(props.movieName, props.movieImg, props.movieId)
+      setHeartColor('#e74c3c')
       setMovieSee(true)
     }
   }
 
-  if (movieSee === true) {
-    heart.color = '#e74c3c'
-  } else { 
-    heart.color = 'grey'
-  }
+ 
 
   // movie icon
   const [watch, setWatch ] = useState(0)
@@ -111,7 +119,7 @@ const Movies = (props) => {
         <CardText>
             <p className="font-weight-bold">{props.movieName}</p>
             <p className="mb-0">
-              Like <FontAwesomeIcon icon={faHeart} style={heart} onClick={ () => clickLike() }/> {props.movieSee}
+              Like <FontAwesomeIcon icon={faHeart} style={{... genericStyle,color:heartColor}} onClick={ () => clickLike() }/> {props.movieSee}
             </p>
             <p className="mb-0">
               Nombre de vues <FontAwesomeIcon icon={faVideo} style={movieCamera} onClick={ () => clickWatch() } />

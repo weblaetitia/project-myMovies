@@ -35,7 +35,6 @@ function App() {
   }
 
   // afficher la wishlist
-  
   useEffect (() => {
     async function loadData() {
       var rawResponse = await fetch('/wishlist')
@@ -44,6 +43,8 @@ function App() {
     }
   loadData()  
   }, [])
+
+
 
   const myWishList = wishList.map( function (movie, i) {
     return <ListGroupItem className='p-1'>
