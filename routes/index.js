@@ -10,7 +10,12 @@ router.get('/new-movies', function(req, res, next) {
   apiRequest = JSON.parse(apiRequest.getBody())
   datas = apiRequest.results.map(function(movie) {
     // cut the text
-    var shortOverview = movie.overview.slice(movie.overview.length - 80) + '...'
+    if (movie.overview.length >= 80) {
+      var shortOverview = movie.overview.slice(0, 80) + '...'
+    } else {
+      var shortOverview = movie.overview
+    }
+    
 
     return {
       popularity: movie.popularity,
@@ -18,7 +23,7 @@ router.get('/new-movies', function(req, res, next) {
       id: movie.id,      
       backdrop_path: 'http://image.tmdb.org/t/p/w300/' + movie.backdrop_path,      
       title: movie.title,
-      vote_average: movie.vote_average,
+      vote_average: movie.vote_average, 
       overview: shortOverview
     }
   })
