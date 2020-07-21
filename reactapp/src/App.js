@@ -26,12 +26,14 @@ function App() {
     setWishList([...wishList, {title, backdrop, movieId}])
   }
 
+
   // supprimer un film de la bdd et de la wish list
   var handleClickDeleteMovie = async (movieId) => {
+    console.log(wishList)
     await fetch('/wishlist/'+ movieId, {
       method: 'DELETE'
     })
-    setWishList(wishList.filter( (e) => (e.movieId !== movieId)))
+    setWishList(wishList.filter( (e) => (e.tmdb_id !== movieId)))
   }
 
   // afficher la wishlist
@@ -44,8 +46,9 @@ function App() {
   loadData()  
   }, [])
 
+  console.log(wishList)
 
-
+  // boucle wishlist
   const myWishList = wishList.map( function (movie, i) {
     return <ListGroupItem className='p-1'>
           <Media>
@@ -56,7 +59,7 @@ function App() {
             {movie.title}
             </Media>
             <Media body style={{textAlign: 'right'}} >
-            <FontAwesomeIcon icon={faTimesCircle} style={{cursor: 'pointer'}} />
+            <FontAwesomeIcon icon={faTimesCircle} style={{cursor: 'pointer'}} onClick={ () => { handleClickDeleteMovie(movie.tmdb_id) }} />
             </Media>
           </Media>
       </ListGroupItem>
