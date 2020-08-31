@@ -62,7 +62,7 @@ function App() {
             <Media left href="#" >
               <Media object src={movie.backdrop} alt={movie.title} style={{width:'60px', marginRight:'0.8em'}} />
             </Media>
-            <Media body>
+            <Media body style={{marginRight:'0.8em'}}>
             {movie.title}
             </Media>
             <Media body style={{textAlign: 'right'}} >
