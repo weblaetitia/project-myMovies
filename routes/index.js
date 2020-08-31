@@ -15,8 +15,6 @@ router.get('/new-movies', function(req, res, next) {
     } else {
       var shortOverview = movie.overview
     }
-    
-
     return {
       popularity: movie.popularity,
       vote_count: movie.vote_count,
@@ -42,7 +40,7 @@ router.post('/wishlist/:id', async function(req, res, next) {
   var backDrop = imgConfig.images.secure_base_url + imgConfig.images.backdrop_sizes[0] + apiRequest.backdrop_path
 
   var newMovie = new WishModel({
-    tmdb_id: req.params.id,
+    movieId: req.params.id,
     title: apiRequest.title,
     backdrop: backDrop,
   })
@@ -56,7 +54,7 @@ router.delete('/wishlist/:id', async function(req, res, next) {
   console.log('ok route DELETE')
   var movieId = req.params.id
   await WishModel.deleteOne({
-    tmdb_id: movieId
+    movieId: movieId
   })
   console.log('ok delete')
   res.json({result: true});

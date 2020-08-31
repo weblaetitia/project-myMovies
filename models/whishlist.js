@@ -2,7 +2,7 @@ var mongoose = require('mongoose')
 
 // Schema
 var wishSchema = mongoose.Schema({
-    tmdb_id: Number,
+    movieId: Number,
     title: String,
     backdrop: String,
 })

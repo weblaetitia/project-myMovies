@@ -1,75 +1,24 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {Card, CardImg, CardText, CardBody, Badge, Col} from 'reactstrap';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faVideo, faStar } from '@fortawesome/free-solid-svg-icons'
-import { set } from 'mongoose';
 
 
 const Movies = (props) => {
-  // styles
-  var genericStyle =  {
-    cursor: 'pointer',
-    transitionDuration: '.5s' 
+
+  // color of heart
+  if(props.movieSee){
+    var colorLike = {...genericStyle, color: '#e74c3c'}
+  } else {
+    var colorLike = {...genericStyle}
   }
-
-  var heart = {
-    ... genericStyle,
-    color: '#grey'
-  }
-
-  var likedHeart = {
-    ... genericStyle,
-    color: '#e74c3c'
-  }
-
-  var movieCamera = {
-    ... genericStyle,
-  }
-
-  var starIcon = {
-    ... genericStyle,
-  }
-
-  // setter for heart color
-  const [heartColor, setHeartColor] = useState('grey')
-
-  // movieSee check if the movie is already in wishlist
-  const [movieSee, setMovieSee] = useState(false)
-
-  // check if movie is allready in db wish list with useeffect
-  // useEffect (() => {
-  //   async function loadData() {
-  //     // check db
-  //     var rawresponse = await fetch ('/wishlist')
-  //     var response = await rawresponse.json()
-  //     // check if movie name == nam in db
-  //     response.forEach((element) => {
-  //       if (element.tmdb_id == props.movieId) {
-  //         console.log(props.movieId, element.tmdb_id, 'same movie')
-  //         setMovieSee(true)
-  //         setHeartColor('#e74c3c')
-  //       } else {
-  //         console.log(props.movieId, element.tmdb_id, 'not same movie')
-  //         setMovieSee(false)
-  //         setHeartColor('grey')
-  //       }
-  //     })
-  //   }
-  // loadData()  
-  // }, [])
-
-
+  
   // Like btn -> Like & add to/delete from wishlist
   var clickLike = () => {
-    if (movieSee === true) {
+    if (props.movieSee === true) {
       props.handleClickDeleteMovieParent(props.movieId)
-      setHeartColor('grey')
-      setMovieSee(false)
     } else {
       props.handleClickAddMovieParent(props.movieName, props.movieImg, props.movieId)
-      setHeartColor('#e74c3c')
-      setMovieSee(true)
     }
   }
 
@@ -118,18 +67,18 @@ const Movies = (props) => {
   for (let i=0; i<10; i++) {
     const num = i+1
     if (i>= rating) {
-      rateStars.push(<FontAwesomeIcon icon={faStar} style={starIcon} data-key={num} onClick={ () => rateTwo(num) } />)
+      rateStars.push(<FontAwesomeIcon key={i} icon={faStar} style={starIcon} data-key={num} onClick={ () => rateTwo(num) } />)
     } else {
-      rateStars.push(<FontAwesomeIcon  style={{color:'gold'}} icon={faStar} data-key={num}  onClick={ () => rateTwo(num) } />)
+      rateStars.push(<FontAwesomeIcon key={i} style={{color:'gold'}} icon={faStar} data-key={num}  onClick={ () => rateTwo(num) } />)
     }
   }
 
   const globalCount = []
   for (var i=0; i<10; i++) {
     if (i>= newScore) {
-      globalCount.push(<FontAwesomeIcon icon={faStar} style={starIcon} />)
+      globalCount.push(<FontAwesomeIcon key={i} icon={faStar} style={starIcon} />)
     } else {
-      globalCount.push(<FontAwesomeIcon  style={{color:'gold'}} icon={faStar} />)
+      globalCount.push(<FontAwesomeIcon key={i} style={{color:'gold'}} icon={faStar} />)
     }
   }
 
@@ -138,29 +87,45 @@ const Movies = (props) => {
       <Card className="mb-3">
       <CardImg top width="100%" src={props.movieImg} alt="Card image cap" />
       <CardBody>
-        <CardText>
-            <p className="font-weight-bold">{props.movieName}</p>
-            <p className="mb-0">
-              Like <FontAwesomeIcon icon={faHeart} style={{... genericStyle,color:heartColor}} onClick={ () => clickLike() }/> {props.movieSee}
-            </p>
-            <p className="mb-0">
+            <CardText className="font-weight-bold">{props.movieName}</CardText>
+            <CardText className="mb-0">
+              Like <FontAwesomeIcon icon={faHeart} style={colorLike} onClick={ () => clickLike() }/>
+            </CardText>
+            <CardText className="mb-0">
               Nombre de vues <FontAwesomeIcon icon={faVideo} style={movieCamera} onClick={ () => clickWatch() } />
               <Badge className="ml-2" color="secondary">{watch}</Badge>
-            </p>
-            <p className="mb-0">
+            </CardText>
+            <CardText className="mb-0">
               Mon avis {rateStars}
               <Badge className="ml-1" color="secondary" onClick={ () => rateClick('down')} >-1</Badge>
               <Badge className="ml-1" color="secondary" onClick={ () => rateClick('up')} >+1</Badge>
-            </p>
-            <p className="mb-0">
+            </CardText>
+            <CardText className="mb-0">
             Avis global {globalCount} ({vote})
-            </p>
-            <p>{props.movieDesc}</p>
-        </CardText>
+            </CardText>
+            <CardText>{props.movieDesc}</CardText>
       </CardBody>
     </Card>
   </Col>
   );
 };
+
+
+
+// styles
+var genericStyle =  {
+  cursor: 'pointer',
+  transitionDuration: '.2s' 
+}
+
+var movieCamera = {
+  ...genericStyle,
+}
+
+var starIcon = {
+  ...genericStyle,
+}
+
+
 
 export {Movies};
